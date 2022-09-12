@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Script gives info on file (exist? empty? file and not directory?)
-
+# Script gives info on file
 file="school"
 
 if [ -e "$school" ]; then
