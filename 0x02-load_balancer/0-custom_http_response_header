@@ -2,25 +2,25 @@
 # Configure server with: Nginx, custom 404, custom 301 redirect to google
 # Add to HTTP header
 
-ADD301_REDIRECT="\\\tlocation /redirect_me {\n\t\t return 301 https://daeshov.tech;\n\t}\n"
-ADD404_NOTFOUND="error_page 404 /custom_404.html;\n\\tlocation = /custom_404.html {\n\t\t root /usr/share/nginx/html;\n\t\tinternal;\n\t}\n"
-PATTERN="#error_page 404 /404.html;"
-ADD_HEADER="\\\tadd_header X-Served-By $HOSTNAME;"
-
-sudo apt-get update
-sudo apt-get -y install nginx
-sudo service nginx start
-
-echo "Hello world!" > etc/nginx/html/404.html
-
-# daeshov.tech/redirect_me 
-sudo sed -i "30i $ADD301_REDIRECT" /etc/nginx/sites-available/default
-
-# Any page that errors shows this new custom_404.html page (uncomment and replace code)
-echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
-sudo sed -i "s@$PATTERN@$ADD404_NOTFOUND@" /etc/nginx/sites-available/default
-
-# Header is updated (add_header to file)
-sudo sed -i "27i $ADD_HEADER" /etc/nginx/sites-available/default
-
-sudo service nginx restart
+apt-get update
+apt-get upgrade
+apt-get install -y nginx
+mkdir /var/www/nginx/html
+touch /var/www/nginx/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+sudo echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+sudo echo "server {
+    add_header X-Served_By $HOSTNAME;
+    location /redirect_me {
+        returning 301 http://daeshov.tech/;
+    }
+     error_page 404 /404.html;
+    location /404 {
+      root /etc/nginx/html;
+      internal;
+    listen 80 defualt_server;
+    listen [::]:80 defualt_server;
+    root /etc/nginx/html;
+    index  index.html;
+}" > /etc/nginx/sites-avaliable/default
+service nginx restart
