@@ -13,7 +13,7 @@ frontend http-in
     default_backend questionTwo
 backend questionTwo
     balance roundrobin
-    server 5571-web-01 15.188.86.122:80 check
-    server 5571-web-02 15.188.86.125:80 check
+    server 5571-web-01 13.38.104.226:80 check
+    server 5571-web-02 13.37.235.208:80 check
 EOT
 sudo service haproxy restart
