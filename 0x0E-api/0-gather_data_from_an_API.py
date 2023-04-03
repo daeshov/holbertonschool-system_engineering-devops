@@ -8,7 +8,7 @@ from sys import argv
 
 def display():
     """return API data"""
-    users = requests.get("http://jsonplaceholder.typicode.com/users")
+    users = requests.get("http://jsonplaceholder.typicode.com/")
     for u in users.json():
         if u.get('id') == int(argv[1]):
             EMPLOYEE_NAME = (u.get('name'))
